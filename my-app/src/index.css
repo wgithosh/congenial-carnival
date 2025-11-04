@@ -1,114 +1,107 @@
  /* === Tailwind Core === */
- @import "tailwindcss";
- @custom-variant dark (&:where(.dark, .dark *));
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
- @layer base {
-   html {
-     color-scheme: light dark;
-   }
- }
+/* === Theme Variables === */
+@theme {
+  /* 🎨 Brand Colors */
+  --color-primary: #10b981; /* Neon Green (accent) */
+  --color-secondary: #1e1b4b; /* Deep Indigo for gaming feel */
+  --color-accent: #7c3aed; /* Purple for highlights */
+  --color-neutral-dark: #0a0a0a;
+  --color-neutral-light: #f9fafb;
+  --color-muted: #6b7280;
 
+  /* 🧱 Font System */
+  --font-display: "Orbitron", sans-serif;
+  --font-body: "Inter", sans-serif;
 
- @theme {
-   /* 🎨 Brand Colors */
-   --color-primary: #10b981;
-   /* Neon Green (accent) */
-   --color-secondary: #1e1b4b;
-   /* Deep Indigo for gaming feel */
-   --color-accent: #7c3aed;
-   /* Purple for highlights */
-   --color-neutral-dark: #0a0a0a;
-   --color-neutral-light: #f9fafb;
-   --color-muted: #6b7280;
+  /* 🔢 Font Sizes */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
 
-   /* 🧱 Font System */
-   --font-display: "Orbitron", sans-serif;
-   /* Gaming headline font */
-   --font-body: "Inter", sans-serif;
+  /* 🧩 Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
 
-   /* 🔢 Font Sizes (type scale) */
-   --text-xs: 0.75rem;
-   --text-sm: 0.875rem;
-   --text-base: 1rem;
-   --text-lg: 1.125rem;
-   --text-xl: 1.25rem;
-   --text-2xl: 1.5rem;
-   --text-3xl: 1.875rem;
-   --text-4xl: 2.25rem;
-   --text-5xl: 3rem;
-   --text-6xl: 3.75rem;
+  /* 💡 Shadows */
+  --shadow-soft: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px var(--color-accent);
+}
 
-   /* 🧩 Border Radius */
-   --radius-sm: 0.375rem;
-   --radius-md: 0.75rem;
-   --radius-lg: 1rem;
+/* === Base Styles === */
+@layer base {
+  html {
+    color-scheme: light dark;
+    scroll-behavior: smooth;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
 
-   /* 💡 Shadows */
-   --shadow-soft: 0 4px 10px rgba(0, 0, 0, 0.1);
-   --shadow-glow: 0 0 20px var(--color-accent);
- }
+  body {
+    @apply bg-neutral-light text-neutral-dark dark:bg-neutral-dark dark:text-neutral-light;
+    font-family: var(--font-body);
+  }
 
- /* === Global Styles === */
- @layer base {
-   html {
-     color-scheme: light dark;
-     scroll-behavior: smooth;
-     transition: background-color 0.3s ease, color 0.3s ease;
-   }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    letter-spacing: 0.03em;
+  }
 
-   body {
-     @apply bg-neutral-light text-neutral-dark dark:bg-neutral-dark dark:text-neutral-light;
-     font-family: var(--font-body);
-   }
+  a {
+    @apply text-primary hover:text-accent transition;
+  }
 
-   h1,
-   h2,
-   h3,
-   h4,
-   h5,
-   h6 {
-     font-family: var(--font-display);
-     letter-spacing: 0.03em;
-   }
+  img {
+    @apply rounded-lg;
+  }
+}
 
-   a {
-     @apply text-primary hover:text-accent transition;
-   }
+/* === Components (custom reusable styles) === */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md font-semibold transition-all;
+  }
 
-   img {
-     @apply rounded-lg;
-   }
- }
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-accent;
+  }
 
- /* === Utilities & Effects === */
- @layer utilities {
-   .glass {
-     @apply bg-white/10 dark:bg-black/30 backdrop-blur-lg border border-white/10;
-   }
+  .btn-outline {
+    @apply border border-primary text-primary hover:bg-primary hover:text-white;
+  }
+}
 
-   .gradient-text {
-     background: linear-gradient(to right, var(--color-primary), var(--color-accent));
-     -webkit-background-clip: text;
-     -webkit-text-fill-color: transparent;
-   }
+/* === Utilities & Effects === */
+@layer utilities {
+  .glass {
+    @apply bg-white/10 dark:bg-black/30 backdrop-blur-lg border border-white/10;
+  }
 
-   .glow {
-     box-shadow: var(--shadow-glow);
-   }
+  .gradient-text {
+    background: linear-gradient(to right, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-   .section {
-     @apply py-20 px-6 md:px-12 lg:px-20;
-   }
+  .glow {
+    box-shadow: var(--shadow-glow);
+  }
 
-   .btn {
-     @apply inline-flex items-center justify-center rounded-md font-semibold transition-all;
-   }
-
-   .btn-primary {
-     @apply btn bg-primary text-white hover:bg-accent;
-   }
-
-   .btn-outline {
-     @apply btn border border-primary text-primary hover:bg-primary hover:text-white;
-   }
- }
+  .section {
+    @apply py-20 px-6 md:px-12 lg:px-20;
+  }
+}
