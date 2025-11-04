@@ -1,8 +1,8 @@
- /* === Tailwind Core === */
+  
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* === Theme Variables === */
+  
 @theme {
   /* 🎨 Brand Colors */
   --color-primary: #10b981; /* Neon Green (accent) */

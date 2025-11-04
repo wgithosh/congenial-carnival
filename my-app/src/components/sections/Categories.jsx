@@ -1,34 +1,35 @@
- import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 const categories = [
- {
-  title: "Consoles",
-  img: "https://images.unsplash.com/photo-1607853202273-797f1c22a38e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29uc29sZXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=80",
-},
+  {
+    title: "Consoles",
+    img: "https://images.unsplash.com/photo-1607853202273-797f1c22a38e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29uc29sZXN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=80",
+  },
 
-   {
-  title: "Headsets",
-  img: "https://images.unsplash.com/photo-1677086852955-83f5942cae8a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGhlYWRzZXRzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=80",
-},
+  {
+    title: "Headsets",
+    img: "https://images.unsplash.com/photo-1677086852955-83f5942cae8a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGhlYWRzZXRzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=80",
+  },
 
-   {
-  title: "Controllers",
-  img: "https://images.unsplash.com/photo-1705910308551-7bd455ae8732?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29udHJvbGxlcnMlMjBwcyUyMDV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=80",
-},
+  {
+    title: "Controllers",
+    img: "https://images.unsplash.com/photo-1705910308551-7bd455ae8732?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29udHJvbGxlcnMlMjBwcyUyMDV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=80",
+  },
 
-   {
-  title: "Gaming PCs",
-  img: "https://images.unsplash.com/photo-1736457833722-35cf6dd38deb?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODl8fGdhbWluZyUyMHBjfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=80",
-},
+  {
+    title: "Gaming PCs",
+    img: "https://images.unsplash.com/photo-1736457833722-35cf6dd38deb?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8ODl8fGdhbWluZyUyMHBjfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=80",
+  },
 
   {
     title: "Accessories",
-    img: "https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?auto=format&fit=crop&w=800&q=80",
+    img: "https://images.unsplash.com/photo-1757356747708-f11f10dbda7e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGdyYXBoaWNzJTIwY2FyZCUyMGdhbWluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
   },
-   {
-  title: "Gaming Chairs",
-  img: "https://images.unsplash.com/photo-1670946839270-cc4febd43b09?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Z2FtaW5nJTIwY2hhaXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=80",
-},
+
+  {
+    title: "Gaming Chairs",
+    img: "https://images.unsplash.com/photo-1670946839270-cc4febd43b09?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Z2FtaW5nJTIwY2hhaXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=80",
+  },
 
 ];
 

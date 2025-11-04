@@ -16,12 +16,12 @@ export default function About() {
           className="w-full lg:w-1/2 flex justify-center relative"
         >
           <div className="relative">
-             <img
-  src="https://images.unsplash.com/photo-1598550473359-433795503a0f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGdhbW1pbmclMjByb218ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=80"
-  alt="Gaming room console setup"
-  className="rounded-3xl shadow-2xl w-[90%] lg:w-[500px] object-cover"
-  loading="lazy"
-/>
+            <img
+              src="https://images.unsplash.com/photo-1598550473359-433795503a0f?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGdhbW1pbmclMjByb218ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=80"
+              alt="Gaming room console setup"
+              className="rounded-3xl shadow-2xl w-[90%] lg:w-[500px] object-cover"
+              loading="lazy"
+            />
 
             {/* Soft Glow Behind Image */}
             <div className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-primary/30 to-accent/30 blur-3xl opacity-40 -z-10"></div>
@@ -46,7 +46,7 @@ export default function About() {
 
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
             Born from a love for gaming and innovation, NovaArcade brings
-            world-class performance gear to every player — from casual streamers
+            world-class performance gear to every player from casual streamers
             to competitive pros. Our mission is simple: to help you dominate
             your world with technology that feels alive.
           </p>

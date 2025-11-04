@@ -28,7 +28,7 @@ export default function Highlight() {
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-accent mx-auto lg:mx-0 mb-8 rounded-full"></div>
 
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-            At NovaArcade, we don’t just create gaming hardware — we craft
+            At NovaArcade, we don’t just create gaming hardware we craft
             immersive experiences. Our devices are engineered to respond faster,
             last longer, and perform better under pressure.
           </p>
