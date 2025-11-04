@@ -1,4 +1,4 @@
- import Header from "./components/layout/Header";
+import Header from "./components/layout/Header";
 import Hero from "./components/sections/Hero";
 import Stats from "./components/sections/Stats";
 import About from "./components/sections/About";
@@ -8,6 +8,8 @@ import Products from "./components/sections/Products";
 import Testimonials from "./components/sections/Testimonials";
 import Newsletter from "./components/sections/Newsletter";
 import Footer from "./components/layout/Footer";
+
+
 function App() {
   return (
     <>
@@ -23,6 +25,8 @@ function App() {
         <Newsletter />
         <Footer />
       </main>
+
+
     </>
   );
 }
