@@ -1,18 +1,30 @@
  import Header from "./components/layout/Header";
 import Hero from "./components/sections/Hero";
-import StatsSection  from "./components/sections/StatsSection";
-import AboutSection from "./components/sections/AboutSection";
-import GearSection from "./components/sections/GearSection";
-import MissionSection from "./components/sections/MissionSection";
-export default function App() {
+import Stats from "./components/sections/Stats";
+import About from "./components/sections/About";
+import Categories from "./components/sections/Categories";
+import Highlight from "./components/sections/Highlight";
+import Products from "./components/sections/Products";
+import Testimonials from "./components/sections/Testimonials";
+import Newsletter from "./components/sections/Newsletter";
+import Footer from "./components/layout/Footer";
+function App() {
   return (
-    <div className="bg-black text-white">
+    <>
       <Header />
-      <Hero />
-      <StatsSection />
-      <AboutSection />
-       <GearSection />
-       <MissionSection />
-    </div>
+      <main>
+        <Hero />
+        <Stats />
+        <About />
+        <Categories />
+        <Highlight />
+        <Products />
+        <Testimonials />
+        <Newsletter />
+        <Footer />
+      </main>
+    </>
   );
 }
+
+export default App;

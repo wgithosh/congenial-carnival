@@ -1,52 +1,78 @@
-import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
-import Navigation from "./Navigation";
+ import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Sun, Moon } from "lucide-react";
 
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") || "dark"
+  );
 
-  // Add shadow on scroll
+  // Toggle dark/light mode
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () =>
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
 
   return (
-    <header
-      className={`fixed w-full top-0 z-50 backdrop-blur-md border-b border-white/10 transition-all duration-300 ${
-        isScrolled ? "bg-[#0A0A0F]/95 shadow-lg shadow-cyan-500/20" : "bg-[#0A0A0F]/70"
-      }`}
+    <motion.header
+      initial={{ y: -50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="sticky top-0 z-50 bg-white/70 dark:bg-[#0a0a0a]/70 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800"
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+      <div className="max-w-7xl mx-auto px-6 lg:px-16 py-4 flex justify-between items-center">
         {/* Logo */}
-        <h1 className="text-2xl font-extrabold tracking-wide text-cyan-400 drop-shadow-[0_0_10px_#00fff5]">
-          NovaByte<span className="text-pink-500 drop-shadow-[0_0_8px_#ff00c8]">.</span>
-        </h1>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:block">
-          <Navigation />
-        </div>
-
-        {/* Mobile Toggle */}
-        <button
-          className="md:hidden text-white"
-          onClick={() => setIsOpen(!isOpen)}
+        <a
+          href="#home"
+          className="text-2xl font-heading font-bold text-primary hover:text-accent transition"
         >
-          {isOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
+          Nova<span className="text-accent">Arcade</span>
+        </a>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-[#0A0A0F]/95 border-t border-white/10 px-6 py-4">
-          <Navigation mobile />
+        {/* Navigation */}
+        <nav className="hidden md:flex gap-8 text-sm font-medium">
+          <a href="#home" className="hover:text-primary transition">
+            Home
+          </a>
+          <a href="#features" className="hover:text-primary transition">
+            Features
+          </a>
+          <a href="#products" className="hover:text-primary transition">
+            Products
+          </a>
+          <a href="#about" className="hover:text-primary transition">
+            About
+          </a>
+          <a href="#contact" className="hover:text-primary transition">
+            Contact
+          </a>
+        </nav>
+
+        {/* CTA + Theme toggle */}
+        <div className="flex items-center gap-4">
+          <button className="hidden md:inline-block bg-primary hover:bg-accent text-white px-5 py-2 rounded-full font-medium shadow-md hover:shadow-lg transition">
+            Shop Now
+          </button>
+
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800 transition"
+          >
+            {theme === "dark" ? (
+              <Sun className="w-5 h-5 text-yellow-400" />
+            ) : (
+              <Moon className="w-5 h-5 text-gray-600" />
+            )}
+          </button>
         </div>
-      )}
-    </header>
+      </div>
+    </motion.header>
   );
 }

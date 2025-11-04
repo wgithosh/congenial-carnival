@@ -2,61 +2,68 @@
 
 export default function Hero() {
   return (
-    <section className="relative w-full bg-[#08080C] text-white overflow-hidden pt-24 pb-20">
-      {/* Ambient background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_#00fff520,_transparent_70%)]"></div>
+    <section
+      id="home"
+      className="relative min-h-[90vh] flex flex-col-reverse lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 lg:px-16 py-16"
+    >
+      {/* LEFT: Text */}
+      <motion.div
+        initial={{ opacity: 0, x: -60 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="w-full lg:w-1/2 text-center lg:text-left"
+      >
+        <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">
+          Level Up Your <br />
+          <span className="bg-gradient-to-r from-primary via-accent to-purple-600 bg-clip-text text-transparent">
+            Gaming Experience
+          </span>
+        </h1>
 
-      <div className="relative max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-        {/* Text Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-          className="text-center lg:text-left"
-        >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6">
-            Power Your{" "}
-            <span className="text-cyan-400 drop-shadow-[0_0_10px_#00fff5]">
-              Next Game
-            </span>
-            .
-          </h1>
+        <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8">
+          Discover the ultimate collection of high-performance gaming gear,
+          designed to power your passion and elevate every victory.
+        </p>
 
-          <p className="text-gray-400 text-base sm:text-lg md:text-xl max-w-2xl mx-auto lg:mx-0 mb-8">
-            Step into the future of performance gaming with setups built for
-            dominance. Designed by pros, powered by passion.
-          </p>
-
-          <motion.div
+        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+          <motion.a
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+            whileTap={{ scale: 0.98 }}
+            href="#products"
+            className="bg-primary hover:bg-accent text-white px-8 py-3 rounded-full shadow-lg font-semibold tracking-wide transition"
           >
-            <button className="bg-gradient-to-r from-cyan-400 to-pink-500 text-black px-8 py-3 font-semibold rounded-xl shadow-lg hover:shadow-cyan-400/40 transition-all duration-300">
-              Shop Gear
-            </button>
-            <button className="border border-cyan-400 text-cyan-400 px-8 py-3 font-semibold rounded-xl hover:bg-cyan-400 hover:text-black transition-all duration-300">
-              Learn More
-            </button>
-          </motion.div>
-        </motion.div>
+            Explore Products
+          </motion.a>
 
-        {/* Hero Image */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-          viewport={{ once: true }}
-          className="relative"
-        >
-          <img
-            src="https://images.unsplash.com/photo-1606813902912-d4b95d06e9b9?auto=format&fit=crop&w=1000&q=80"
-            alt="Gaming setup"
-            className="w-full max-w-[500px] md:max-w-none mx-auto rounded-2xl border border-cyan-400/20 shadow-[0_0_20px_#00fff522]"
-          />
-        </motion.div>
-      </div>
+          <a
+            href="#about"
+            className="border border-primary hover:border-accent text-primary hover:text-accent px-8 py-3 rounded-full font-semibold transition"
+          >
+            Learn More
+          </a>
+        </div>
+      </motion.div>
+
+      {/* RIGHT: Hero Image */}
+      <motion.div
+        initial={{ opacity: 0, x: 60 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="w-full lg:w-1/2 mb-12 lg:mb-0 flex justify-center relative"
+      >
+        <div className="relative">
+         <img
+  src="https://images.unsplash.com/photo-1651012998667-2c779fee76f8?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Z2FtaW5nJTIwcGN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=1000&q=80"
+  alt="Gaming PC setup"
+  className="rounded-3xl shadow-2xl w-[90%] lg:w-[500px] object-cover"
+  loading="lazy"
+/>
+
+
+          {/* Glow Effect */}
+          <div className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-primary/30 to-accent/30 blur-3xl opacity-40 -z-10"></div>
+        </div>
+      </motion.div>
     </section>
   );
 }
