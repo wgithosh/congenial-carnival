@@ -54,7 +54,7 @@ export default function About() {
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
             Every headset, controller, and setup we design is powered by
             creativity and engineered for victory. We believe gaming isn’t just
-            play — it’s identity, community, and art.
+            play it’s identity, community, and art.
           </p>
 
           <motion.a
