@@ -22,7 +22,7 @@ const categories = [
   },
 
   {
-    title: "Accessories",
+    title: "Graphics Card",
     img: "https://images.unsplash.com/photo-1757356747708-f11f10dbda7e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fGdyYXBoaWNzJTIwY2FyZCUyMGdhbWluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=600",
   },
 
