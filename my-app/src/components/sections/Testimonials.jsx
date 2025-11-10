@@ -106,8 +106,8 @@ export default function Testimonials() {
                         <div
                             key={i}
                             className={`w-3 h-3 rounded-full transition-all ${i === index
-                                    ? "bg-gradient-to-r from-primary to-accent w-6"
-                                    : "bg-gray-400/40"
+                                ? "bg-gradient-to-r from-primary to-accent w-6"
+                                : "bg-gray-400/40"
                                 }`}
                         />
                     ))}
