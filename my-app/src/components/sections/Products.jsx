@@ -1,4 +1,4 @@
-  import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import Card from "../common/Card";
 
 const products = [
@@ -10,7 +10,7 @@ const products = [
         description:
             "Precision control, adaptive triggers, and RGB backlight for pro gamers.",
     },
-
+ 
 
     {
         image:

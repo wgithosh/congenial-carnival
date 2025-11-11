@@ -1,6 +1,30 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function Newsletter() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    try {
+      const res = await fetch("http://localhost:5000/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+      setStatus("success");
+      setEmail(""); // clear field
+    } catch (error) {
+      console.error("Error subscribing:", error);
+      setStatus("error");
+    }
+  };
+
   return (
     <section
       id="newsletter"
@@ -33,16 +57,18 @@ export default function Newsletter() {
 
         {/* Form */}
         <motion.form
+          onSubmit={handleSubmit}
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 0.6 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto"
-          onSubmit={(e) => e.preventDefault()}
         >
           <input
             type="email"
             required
             placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="flex-1 px-6 py-3 rounded-full border border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-900/70 text-gray-800 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary"
           />
           <motion.button
@@ -51,9 +77,17 @@ export default function Newsletter() {
             type="submit"
             className="px-8 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-full font-semibold shadow-lg hover:shadow-accent/40 transition"
           >
-            Subscribe
+            {status === "loading" ? "Subscribing..." : "Subscribe"}
           </motion.button>
         </motion.form>
+
+        {/* Feedback */}
+        {status === "success" && (
+          <p className="text-green-500 mt-4">✅ Subscribed successfully!</p>
+        )}
+        {status === "error" && (
+          <p className="text-red-500 mt-4">❌ Something went wrong.</p>
+        )}
 
         {/* Disclaimer */}
         <p className="text-sm text-gray-500 dark:text-gray-600 mt-6">
