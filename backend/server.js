@@ -14,7 +14,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "https://fronntend-nsys.onrender.com", // Your deployed frontend
+      "https://frntend6.onrender.com", // Your deployed frontend
       "http://localhost:5173",         // Local dev frontend (Vite)
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
