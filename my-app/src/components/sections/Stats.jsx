@@ -1,4 +1,4 @@
- import { motion, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 
 function useCountUp(target, start = false, duration = 2000) {
@@ -30,18 +30,18 @@ export default function Stats() {
   return (
     <section
       id="stats"
-      className="relative py-24 bg-gradient-to-b from-white to-gray-50 dark:from-[#0a0a0a] dark:to-[#111] overflow-hidden"
+      className="relative py-16 md:py-24 bg-gradient-to-b from-white to-gray-50 dark:from-[#0a0a0a] dark:to-[#111] overflow-hidden"
     >
       {/* Subtle texture */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-mosaic.png')] opacity-10 dark:opacity-20"></div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-center mb-12"
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12"
         >
           <span className="bg-gradient-to-r from-primary via-accent to-purple-600 bg-clip-text text-transparent">
             Our Achievements
@@ -49,7 +49,7 @@ export default function Stats() {
         </motion.h2>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 text-center">
           {stats.map((item, index) => {
             const ref = useRef(null);
             const inView = useInView(ref, { once: true, margin: "-100px" });
@@ -68,7 +68,7 @@ export default function Stats() {
                   boxShadow:
                     "0 0 25px rgba(147, 51, 234, 0.5), 0 0 50px rgba(236, 72, 153, 0.4)",
                 }}
-                className="relative p-8 rounded-2xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-200/30 dark:border-gray-700/30 shadow-md overflow-hidden transition-transform duration-300"
+                className="relative p-6 sm:p-8 rounded-2xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-200/30 dark:border-gray-700/30 shadow-md overflow-hidden transition-transform duration-300"
               >
                 {/* Animated Glow */}
                 <motion.div
@@ -93,12 +93,12 @@ export default function Stats() {
                       duration: 0.3,
                       delay: 0.5 + index * 0.2,
                     }}
-                    className="text-4xl md:text-5xl font-extrabold text-primary mb-2 drop-shadow-[0_0_10px_rgba(139,92,246,0.6)]"
+                    className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary mb-1 sm:mb-2 drop-shadow-[0_0_10px_rgba(139,92,246,0.6)]"
                   >
                     {count.toLocaleString()}
                     {item.suffix}
                   </motion.h3>
-                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <p className="text-xs sm:text-sm md:text-base font-medium text-gray-700 dark:text-gray-300">
                     {item.label}
                   </p>
                 </div>
