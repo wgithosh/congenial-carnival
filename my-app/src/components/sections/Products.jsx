@@ -7,8 +7,9 @@ export default function Products() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Fetch products using environment variable
   useEffect(() => {
-    fetch("/api/products")
+    fetch(`${import.meta.env.VITE_API_URL}/products`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch products");
         return res.json();
