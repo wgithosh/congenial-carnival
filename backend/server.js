@@ -5,26 +5,42 @@ import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js";
 import newsletterRoutes from "./routes/newsletterRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// ✅ Secure + flexible CORS setup
+app.use(
+  cors({
+    origin: [
+      "https://frntend2.onrender.com", // Your deployed frontend
+      "http://localhost:5173",         // Local dev frontend (Vite)
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
+// Middleware
 app.use(express.json());
 
-// MongoDB connection
+// ✅ MongoDB connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected successfully"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// Routes
+// ✅ Routes
 app.use("/api/products", productRoutes);
-app.use("/api/newsletter", newsletterRoutes); // ✅ Newsletter route added
+app.use("/api/newsletter", newsletterRoutes);
 app.use("/api/admin", adminRoutes);
-// Root route
+
+// ✅ Root route
 app.get("/", (req, res) => {
   res.send("NovaArcade API is running...");
 });
 
+// ✅ Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

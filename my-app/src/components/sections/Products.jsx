@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Card from "../common/Card";
 
@@ -7,9 +7,8 @@ export default function Products() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch products using environment variable
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/products`)
+    fetch("/api/products")
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch products");
         return res.json();
@@ -24,7 +23,7 @@ export default function Products() {
     <div className="bg-gray-200 dark:bg-gray-800 rounded-2xl h-80 animate-pulse" />
   );
 
-  if (loading)
+  if (loading) {
     return (
       <section className="py-24 max-w-7xl mx-auto px-6 lg:px-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {Array.from({ length: 6 }).map((_, i) => (
@@ -32,11 +31,15 @@ export default function Products() {
         ))}
       </section>
     );
+  }
 
-  if (error)
+  if (error) {
     return (
-      <p className="text-center py-20 text-red-500 text-lg">{error}</p>
+      <p className="text-center py-20 text-red-500 text-lg">
+        {error}
+      </p>
     );
+  }
 
   return (
     <section className="py-24 bg-gradient-to-b from-white to-gray-50 dark:from-[#0a0a0a] dark:to-[#111]">
