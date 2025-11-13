@@ -1,4 +1,4 @@
- import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Card from "../common/Card";
 
@@ -8,7 +8,10 @@ export default function Products() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("/api/products")
+    // Use backend URL from environment variable
+    const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+    fetch(`${API_BASE}/api/products`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch products");
         return res.json();
