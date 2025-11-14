@@ -10,10 +10,11 @@ function About() {
       aria-labelledby="about-title"
       className="relative py-16 sm:py-24 bg-white dark:bg-[#0a0a0a] overflow-hidden px-4 sm:px-6"
     >
-      {/* Decorative background texture - non-blocking + no CLS */}
+      {/* Decorative background texture */}
       <img
         src="https://www.transparenttextures.com/patterns/asfalt-dark.png"
         alt=""
+        role="presentation"
         aria-hidden="true"
         loading="lazy"
         decoding="async"
@@ -38,6 +39,7 @@ function About() {
             width="500"
             height="550"
             className="rounded-2xl shadow-2xl w-[90%] lg:w-[500px] object-cover"
+            initial={{ y: 0 }}   // <-- important fix
             animate={
               prefersReducedMotion
                 ? {}
