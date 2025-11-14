@@ -3,31 +3,33 @@ import { useEffect, useState, useCallback } from "react";
 import React from "react";
 import { motion } from "framer-motion";
 
-// -------------------------------------------------------
-// CARD VARIANTS
-// -------------------------------------------------------
+ //---------------------------------------------------
 const cardVariants = {
   hidden: { opacity: 0, y: 40, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
+  visible: {
+    opacity: 1,
+    y: 0,
     scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" }
-  }
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
 };
 
 const hoverVariants = {
   hover: {
     scale: 1.03,
     rotate: 0.3,
-    boxShadow: "0 8px 25px rgba(16,185,129,0.4)", // neon green glow
-    transition: { duration: 0.2 }
-  }
+    boxShadow: "0 8px 25px rgba(16,185,129,0.4)",
+    transition: { duration: 0.2 },
+  },
 };
 
 const imageVariants = {
   hidden: { opacity: 0, scale: 1.1 },
-  visible: { opacity: 1, scale: 1, transition: { duration: 0.6 } }
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.6 },
+  },
 };
 
 // -------------------------------------------------------
@@ -43,48 +45,53 @@ const Card = React.memo(function Card({
   return (
     <motion.article
       className="bg-white dark:bg-gray-900 rounded-2xl shadow-md overflow-hidden border border-gray-100 dark:border-gray-800"
-      variants={cardVariants}
-      whileHover="hover"
-      transition={{ type: "spring", stiffness: 200, damping: 15 }}
-      variants={hoverVariants}
+      variants={cardVariants}           // entry animation
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      whileHover="hover"                // hover animation
     >
-      <figure>
-        <motion.img
-          src={`${image}&fm=webp`}
-          alt={title}
-          loading="lazy"
-          decoding="async"
-          className="w-full h-64 sm:h-72 md:h-80 object-cover"
-          variants={imageVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        />
-      </figure>
+      <motion.div variants={hoverVariants}>
+        <figure>
+          <motion.img
+            src={`${image}&fm=webp`}
+            alt={title}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-64 sm:h-72 md:h-80 object-cover"
+            variants={imageVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          />
+        </figure>
 
-      <div className="p-4">
-        <h3 className="font-bold text-lg text-gray-900 dark:text-white">{title}</h3>
+        <div className="p-4">
+          <h3 className="font-bold text-lg text-gray-900 dark:text-white">
+            {title}
+          </h3>
 
-        <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm sm:text-base">
-          {description}
-        </p>
+          <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm sm:text-base">
+            {description}
+          </p>
 
-        <p className="font-semibold mt-2 text-primary">${price.toFixed(2)}</p>
+          <p className="font-semibold mt-2 text-primary">${price.toFixed(2)}</p>
 
-        <button
-          onClick={onAddToCart}
-          aria-label={`Add ${title} to cart`}
-          className="mt-4 w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary/80 transition"
-        >
-          Add to Cart
-        </button>
-      </div>
+          <button
+            onClick={onAddToCart}
+            aria-label={`Add ${title} to cart`}
+            className="mt-4 w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary/80 transition"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </motion.div>
     </motion.article>
   );
 });
 
 // -------------------------------------------------------
-// MAIN COMPONENT
+// MAIN PRODUCT COMPONENT
 // -------------------------------------------------------
 export default function Products({ onAddToCartGlobal }) {
   const [products, setProducts] = useState([]);
@@ -111,7 +118,7 @@ export default function Products({ onAddToCartGlobal }) {
       .finally(() => setLoading(false));
   }, []);
 
-  // Skeleton loader
+  // Skeleton Loader
   const SkeletonCard = () => (
     <div className="bg-gray-200 dark:bg-gray-800 rounded-2xl h-72 sm:h-80 animate-pulse" />
   );
@@ -140,6 +147,7 @@ export default function Products({ onAddToCartGlobal }) {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
           className="text-3xl sm:text-4xl font-extrabold text-center mb-6"
         >
           <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
@@ -151,6 +159,7 @@ export default function Products({ onAddToCartGlobal }) {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
           className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto"
         >
           Explore our most popular products, trusted by elite gamers worldwide.
