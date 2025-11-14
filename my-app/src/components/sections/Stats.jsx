@@ -1,5 +1,6 @@
+// src/components/Stats.jsx
 import { motion, useInView } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function useCountUp(target, start = false, duration = 2000) {
   const [count, setCount] = useState(0);
@@ -30,7 +31,7 @@ export default function Stats() {
   return (
     <section
       id="stats"
-      className="relative py-16 md:py-24 bg-gradient-to-b from-white to-gray-50 dark:from-[#0a0a0a] dark:to-[#111] overflow-hidden"
+      className="relative py-16 sm:py-24 bg-gradient-to-b from-white to-gray-50 dark:from-[#0a0a0a] dark:to-[#111] overflow-hidden"
     >
       {/* Subtle texture */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-mosaic.png')] opacity-10 dark:opacity-20"></div>

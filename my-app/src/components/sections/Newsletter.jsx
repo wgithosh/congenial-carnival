@@ -1,11 +1,12 @@
+// src/components/Newsletter.jsx
 import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(""); // status message
-  const [messageType, setMessageType] = useState("success"); // success | error
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("success");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +41,7 @@ export default function Newsletter() {
 
       setMessageType("success");
       setMessage(data.message || "Subscribed successfully!");
-      setEmail(""); // clear input
+      setEmail("");
     } catch (err) {
       setMessageType("error");
       setMessage(err.message || "Something went wrong");
@@ -72,8 +73,7 @@ export default function Newsletter() {
           transition={{ delay: 0.2, duration: 0.8 }}
           className="text-gray-600 dark:text-gray-400 mb-8 max-w-xl mx-auto"
         >
-          Get early access to our latest gaming gear, community tournaments,
-          and special discounts straight to your inbox.
+          Get early access to our latest gaming gear, community tournaments, and special discounts straight to your inbox.
         </motion.p>
 
         <motion.form

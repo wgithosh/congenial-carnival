@@ -1,4 +1,4 @@
- import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sun, Moon, Menu, X } from "lucide-react";
 
@@ -7,7 +7,6 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
-  // 🔹 Nav items
   const navItems = [
     { name: "Home", href: "#home" },
     { name: "Features", href: "#features" },
@@ -16,16 +15,16 @@ export default function Header() {
     { name: "Contact", href: "#contact" },
   ];
 
-  // 🔹 Handle theme persistence
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  const toggleTheme = () =>
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
-  // 🔹 Detect active section in view
+  // Detect active section
   useEffect(() => {
     const sections = document.querySelectorAll("section[id]");
     const observer = new IntersectionObserver(
@@ -36,14 +35,13 @@ export default function Header() {
           }
         });
       },
-      { threshold: 0.5 } // 50% visible
+      { threshold: 0.5 }
     );
 
     sections.forEach((section) => observer.observe(section));
     return () => sections.forEach((section) => observer.unobserve(section));
   }, []);
 
-  // 🔹 Framer Motion variants
   const menuVariants = {
     hidden: { x: "100%" },
     visible: { x: 0 },
@@ -64,7 +62,7 @@ export default function Header() {
       className="sticky top-0 z-50 bg-white/70 dark:bg-[#0a0a0a]/70 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-16 py-4 flex justify-between items-center">
-        {/* 🔸 Logo */}
+        {/* Logo */}
         <a
           href="#home"
           className="text-2xl font-heading font-bold text-primary hover:text-accent transition"
@@ -72,12 +70,15 @@ export default function Header() {
           Nova<span className="text-accent">Arcade</span>
         </a>
 
-        {/* 🔸 Desktop Nav */}
+        {/* Desktop Nav */}
         <nav className="hidden md:flex gap-8 text-sm font-medium">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
+              aria-current={
+                activeSection === item.href.substring(1) ? "page" : undefined
+              }
               className={`transition relative ${
                 activeSection === item.href.substring(1)
                   ? "text-accent after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-accent"
@@ -89,7 +90,7 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* 🔸 Buttons */}
+        {/* Buttons */}
         <div className="flex items-center gap-4">
           <button className="hidden md:inline-block bg-primary hover:bg-accent text-white px-5 py-2 rounded-full font-medium shadow-md hover:shadow-lg transition">
             Shop Now
@@ -108,11 +109,12 @@ export default function Header() {
             )}
           </button>
 
-          {/* Hamburger (mobile) */}
+          {/* Hamburger */}
           <button
             onClick={toggleMenu}
             aria-label="Toggle menu"
             aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
             className="md:hidden p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition"
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -120,7 +122,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 🔹 Mobile Side Drawer */}
+      {/* Mobile Side Drawer */}
       <AnimatePresence>
         {isMenuOpen && (
           <>
@@ -137,6 +139,8 @@ export default function Header() {
 
             {/* Drawer */}
             <motion.div
+              role="menu"
+              id="mobile-menu"
               variants={menuVariants}
               initial="hidden"
               animate="visible"
@@ -144,12 +148,14 @@ export default function Header() {
               transition={{ type: "spring", stiffness: 100, damping: 15 }}
               className="fixed top-0 right-0 h-full w-3/4 sm:w-2/5 bg-white dark:bg-[#0a0a0a] border-l border-gray-200 dark:border-gray-800 shadow-2xl z-50 p-8 flex flex-col justify-between"
             >
-              {/* Nav Links */}
               <div className="flex flex-col gap-6 text-lg font-medium mt-10">
                 {navItems.map((item) => (
                   <a
                     key={item.href}
                     href={item.href}
+                    aria-current={
+                      activeSection === item.href.substring(1) ? "page" : undefined
+                    }
                     onClick={() => setIsMenuOpen(false)}
                     className={`transition ${
                       activeSection === item.href.substring(1)
