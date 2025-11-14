@@ -3,7 +3,38 @@ import { useEffect, useState, useCallback } from "react";
 import React from "react";
 import { motion } from "framer-motion";
 
-  
+ //---------------------------------------------------
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const hoverVariants = {
+  hover: {
+    scale: 1.03,
+    rotate: 0.3,
+    boxShadow: "0 8px 25px rgba(16,185,129,0.4)",
+    transition: { duration: 0.2 },
+  },
+};
+
+const imageVariants = {
+  hidden: { opacity: 0, scale: 1.1 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.6 },
+  },
+};
+
+// -------------------------------------------------------
+// CARD COMPONENT
+// -------------------------------------------------------
 const Card = React.memo(function Card({
   title,
   description,
@@ -12,58 +43,64 @@ const Card = React.memo(function Card({
   onAddToCart,
 }) {
   return (
-    <article
-      className="bg-white dark:bg-gray-900 rounded-2xl shadow-md overflow-hidden border border-gray-100 dark:border-gray-800 focus-within:ring-4 focus-within:ring-primary/40"
+    <motion.article
+      className="bg-white dark:bg-gray-900 rounded-2xl shadow-md overflow-hidden border border-gray-100 dark:border-gray-800"
+      variants={cardVariants}           // entry animation
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      whileHover="hover"                // hover animation
     >
-      <figure>
-        <img
-          src={`${image}&fm=webp`}
-          alt={title}
-          loading="lazy"
-          decoding="async"
-          className="w-full h-64 sm:h-72 md:h-80 object-cover"
-        />
-      </figure>
+      <motion.div variants={hoverVariants}>
+        <figure>
+          <motion.img
+            src={`${image}&fm=webp`}
+            alt={title}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-64 sm:h-72 md:h-80 object-cover"
+            variants={imageVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          />
+        </figure>
 
-      <div className="p-4">
-        <h3 className="font-bold text-lg text-gray-900 dark:text-white">
-          {title}
-        </h3>
+        <div className="p-4">
+          <h3 className="font-bold text-lg text-gray-900 dark:text-white">
+            {title}
+          </h3>
 
-        <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm sm:text-base">
-          {description}
-        </p>
+          <p className="text-gray-600 dark:text-gray-400 mt-1 text-sm sm:text-base">
+            {description}
+          </p>
 
-        <p className="font-semibold mt-2 text-primary">${price.toFixed(2)}</p>
+          <p className="font-semibold mt-2 text-primary">${price.toFixed(2)}</p>
 
-        <button
-          onClick={onAddToCart}
-          aria-label={`Add ${title} to cart`}
-          className="mt-4 w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary/80 transition focus-visible:ring-4 focus-visible:ring-primary/40"
-        >
-          Add to Cart
-        </button>
-      </div>
-    </article>
+          <button
+            onClick={onAddToCart}
+            aria-label={`Add ${title} to cart`}
+            className="mt-4 w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary/80 transition"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </motion.div>
+    </motion.article>
   );
 });
 
-// ---------------------------------------------
-// MAIN PRODUCTS COMPONENT
-// ---------------------------------------------
+// -------------------------------------------------------
+// MAIN PRODUCT COMPONENT
+// -------------------------------------------------------
 export default function Products({ onAddToCartGlobal }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // HANDLE ADD TO CART
   const handleAddToCart = useCallback(
     (product) => {
-      if (onAddToCartGlobal) {
-        onAddToCartGlobal(product);
-      } else {
-        console.log("Added to cart:", product);
-      }
+      if (onAddToCartGlobal) onAddToCartGlobal(product);
     },
     [onAddToCartGlobal]
   );
@@ -81,14 +118,14 @@ export default function Products({ onAddToCartGlobal }) {
       .finally(() => setLoading(false));
   }, []);
 
-  // SKELETON LOADING CARDS
+  // Skeleton Loader
   const SkeletonCard = () => (
     <div className="bg-gray-200 dark:bg-gray-800 rounded-2xl h-72 sm:h-80 animate-pulse" />
   );
 
   if (loading) {
     return (
-      <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      <section className="py-16 max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {Array.from({ length: 6 }).map((_, i) => (
           <SkeletonCard key={i} />
         ))}
@@ -103,14 +140,15 @@ export default function Products({ onAddToCartGlobal }) {
   return (
     <section
       id="products"
-      className="py-16 sm:py-24 bg-gradient-to-b from-white to-gray-50 dark:from-[#0a0a0a] dark:to-[#111]"
+      className="py-16 bg-gradient-to-b from-white to-gray-50 dark:from-[#0a0a0a] dark:to-[#111]"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16">
+      <div className="max-w-7xl mx-auto px-4">
         <motion.h2
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-6"
+          viewport={{ once: true }}
+          className="text-3xl sm:text-4xl font-extrabold text-center mb-6"
         >
           <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             Featured Gear
@@ -121,26 +159,28 @@ export default function Products({ onAddToCartGlobal }) {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto text-sm sm:text-base"
+          viewport={{ once: true }}
+          className="text-center text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto"
         >
           Explore our most popular products, trusted by elite gamers worldwide.
         </motion.p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        {/* GRID WITH STAGGER */}
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          transition={{ staggerChildren: 0.15 }}
+        >
           {products.map((product) => (
-            <motion.div
+            <Card
               key={product._id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <Card
-                {...product}
-                onAddToCart={() => handleAddToCart(product)}
-              />
-            </motion.div>
+              {...product}
+              onAddToCart={() => handleAddToCart(product)}
+            />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
