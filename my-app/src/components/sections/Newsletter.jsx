@@ -5,43 +5,62 @@ function Newsletter() {
   const prefersReducedMotion = useReducedMotion();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // status
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("success");
+
+  // Email regex (mild validation)
+  const isValidEmail = (value) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
+
       if (!email.trim()) {
         setMessageType("error");
-        return setMessage("Please enter an email address");
+        return setMessage("Please enter an email address.");
+      }
+
+      if (!isValidEmail(email)) {
+        setMessageType("error");
+        return setMessage("Please enter a valid email address.");
       }
 
       setLoading(true);
       setMessage("");
 
       try {
-        const API_BASE = import.meta.env.VITE_API_URL || "";
-        const res = await fetch(`${API_BASE}/api/newsletter`, {
+        const API_BASE = import.meta.env.VITE_API_URL ?? "";
+        const url = `${API_BASE}/api/newsletter`;
+
+        const res = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email }),
         });
 
-        const data = await res.json().catch(() => ({
-          message: "Unexpected response",
-        }));
+        // Safe JSON parser
+        let data = {};
+        try {
+          data = await res.json();
+        } catch {
+          data.message = "Unexpected server response";
+        }
 
         if (!res.ok) {
           setMessageType("error");
-          return setMessage(data.message || "Failed to subscribe");
+          return setMessage(data.message || "Failed to subscribe.");
         }
 
+        // success
         setMessageType("success");
         setMessage(data.message || "Subscribed successfully!");
         setEmail("");
       } catch (err) {
         setMessageType("error");
-        setMessage(err.message || "Network error");
+        setMessage("Network error — please try again.");
       } finally {
         setLoading(false);
       }
@@ -56,7 +75,6 @@ function Newsletter() {
       className="relative py-16 sm:py-24 bg-gradient-to-b from-white to-gray-50 dark:from-[#0a0a0a] dark:to-[#111]"
     >
       <div className="max-w-4xl mx-auto text-center px-4 sm:px-6">
-        {/* Heading */}
         <motion.h2
           id="newsletter-title"
           initial={prefersReducedMotion ? false : { opacity: 0, y: 40 }}
@@ -70,7 +88,6 @@ function Newsletter() {
           </span>
         </motion.h2>
 
-        {/* Description */}
         <motion.p
           initial={prefersReducedMotion ? false : { opacity: 0 }}
           whileInView={prefersReducedMotion ? false : { opacity: 1 }}
@@ -82,19 +99,18 @@ function Newsletter() {
           discounts.
         </motion.p>
 
-        {/* Form */}
+        {/* FORM */}
         <motion.form
           initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.95 }}
           whileInView={prefersReducedMotion ? false : { opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
           onSubmit={handleSubmit}
-          role="form"
-          aria-label="Newsletter Subscription Form"
+          noValidate
           className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto"
         >
           <label htmlFor="email-input" className="sr-only">
-            Email address
+            Email Address
           </label>
 
           <input
@@ -104,6 +120,7 @@ function Newsletter() {
             placeholder="Enter your email"
             autoComplete="email"
             required
+            aria-required="true"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="flex-1 px-4 sm:px-6 py-3 rounded-full border border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-900/70 text-gray-800 dark:text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary"
@@ -113,31 +130,47 @@ function Newsletter() {
             whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
             whileTap={prefersReducedMotion ? {} : { scale: 0.97 }}
             type="submit"
-            aria-label="Subscribe to newsletter"
             disabled={loading}
-            className="px-8 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-full font-semibold shadow-lg transition shadow-primary/30 hover:shadow-accent/40 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary"
+            aria-disabled={loading}
+            aria-busy={loading}
+            className="px-8 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-full font-semibold shadow-lg transition hover:shadow-accent/40 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-primary"
           >
-            {loading ? "Subscribing..." : "Subscribe"}
+            {loading ? (
+              <span role="status" aria-live="polite">
+                Subscribing…
+              </span>
+            ) : (
+              "Subscribe"
+            )}
           </motion.button>
         </motion.form>
 
-        {/* Response message */}
-        {message && (
-          <p
-            role="alert"
-            className={`mt-4 text-sm font-medium ${
-              messageType === "success"
-                ? "text-green-600 dark:text-green-400"
-                : "text-red-500 dark:text-red-400"
-            }`}
-          >
-            {message}
-          </p>
-        )}
+        {/* FEEDBACK MESSAGE */}
+        <div aria-live="polite" className="min-h-[24px] mt-4">
+          {message && (
+            <p
+              role="alert"
+              className={`text-sm font-medium ${
+                messageType === "success"
+                  ? "text-green-600 dark:text-green-400"
+                  : "text-red-500 dark:text-red-400"
+              }`}
+            >
+              {message}
+            </p>
+          )}
+        </div>
 
         <p className="text-sm text-gray-500 dark:text-gray-600 mt-6">
           No spam — unsubscribe anytime.
         </p>
+
+        {/* SEO Fallback */}
+        <noscript>
+          <p className="text-gray-700">
+            JavaScript is required to subscribe to our newsletter.
+          </p>
+        </noscript>
       </div>
     </section>
   );

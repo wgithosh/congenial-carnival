@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
-export default function About() {
+function About() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
@@ -9,7 +10,7 @@ export default function About() {
       aria-labelledby="about-title"
       className="relative py-16 sm:py-24 bg-white dark:bg-[#0a0a0a] overflow-hidden px-4 sm:px-6"
     >
-      {/* Background Texture (decorative) */}
+      {/* Decorative background texture - non-blocking + no CLS */}
       <img
         src="https://www.transparenttextures.com/patterns/asfalt-dark.png"
         alt=""
@@ -21,7 +22,7 @@ export default function About() {
 
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-16 relative z-10">
         
-        {/* Image */}
+        {/* IMAGE COLUMN */}
         <motion.div
           initial={{ opacity: 0, x: -60 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -34,6 +35,8 @@ export default function About() {
             alt="Gaming room console setup with colorful LED lighting"
             loading="lazy"
             decoding="async"
+            width="500"
+            height="550"
             className="rounded-2xl shadow-2xl w-[90%] lg:w-[500px] object-cover"
             animate={
               prefersReducedMotion
@@ -48,7 +51,7 @@ export default function About() {
           />
         </motion.div>
 
-        {/* Text */}
+        {/* TEXT COLUMN */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -63,7 +66,7 @@ export default function About() {
             The Story Behind <span className="text-primary">NovaArcade</span>
           </h2>
 
-          <div className="w-20 h-1 bg-primary/60 mx-auto lg:mx-0 mb-6 rounded-full"></div>
+          <div className="w-20 h-1 bg-primary/60 mx-auto lg:mx-0 mb-6 rounded-full" />
 
           <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 mb-4">
             Born from a love for gaming and innovation, NovaArcade delivers
@@ -73,14 +76,15 @@ export default function About() {
 
           <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 mb-6">
             Every device is designed to feel intuitive, refined, and built with
-            care. Gaming isn’t just entertainment — it’s community, creativity,
+            care. Gaming isn't just entertainment — it's community, creativity,
             and passion.
           </p>
 
+          {/* CTA BUTTONS */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
             <motion.a
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.97 }}
               href="#contact"
               className="bg-primary text-white px-6 py-2 sm:px-8 sm:py-3 rounded-full shadow-md hover:bg-primary/80 transition font-semibold"
             >
@@ -88,8 +92,8 @@ export default function About() {
             </motion.a>
 
             <motion.a
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={prefersReducedMotion ? {} : { scale: 1.05 }}
+              whileTap={prefersReducedMotion ? {} : { scale: 0.97 }}
               href="#shop"
               className="border border-primary text-primary dark:text-primary px-6 py-2 sm:px-8 sm:py-3 rounded-full hover:bg-primary/10 transition font-semibold"
             >
@@ -101,3 +105,5 @@ export default function About() {
     </section>
   );
 }
+
+export default memo(About);

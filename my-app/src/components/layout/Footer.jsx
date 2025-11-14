@@ -2,6 +2,15 @@ import { motion } from "framer-motion";
 import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 
 export default function Footer() {
+  const socialLinks = [
+    { Icon: Facebook, label: "Facebook", href: "#" },
+    { Icon: Twitter, label: "Twitter", href: "#" },
+    { Icon: Instagram, label: "Instagram", href: "#" },
+    { Icon: Youtube, label: "YouTube", href: "#" },
+  ];
+
+  const quickLinks = ["Home", "Products", "About", "Contact"];
+
   return (
     <footer className="relative bg-[#0a0a0a] text-gray-300 py-16 border-t border-gray-800">
       <div className="max-w-7xl mx-auto px-6 lg:px-16 grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -15,12 +24,14 @@ export default function Footer() {
             gaming one device at a time.
           </p>
           <div className="flex space-x-4">
-            {[Facebook, Twitter, Instagram, Youtube].map((Icon, index) => (
+            {socialLinks.map(({ Icon, label, href }, index) => (
               <motion.a
                 key={index}
-                href="#"
+                href={href}
+                aria-label={label}
                 whileHover={{ scale: 1.15 }}
-                className="p-2 rounded-full bg-white/5 hover:bg-primary/30 transition"
+                whileFocus={{ scale: 1.15 }}
+                className="p-2 rounded-full bg-white/5 hover:bg-primary/30 focus:outline-none focus:ring-2 focus:ring-primary transition"
               >
                 <Icon className="w-5 h-5 text-gray-300" />
               </motion.a>
@@ -30,15 +41,13 @@ export default function Footer() {
 
         {/* Links Section */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">
-            Quick Links
-          </h3>
+          <h3 className="text-lg font-semibold text-white mb-4">Quick Links</h3>
           <ul className="space-y-2">
-            {["Home", "Products", "About", "Contact"].map((item, i) => (
+            {quickLinks.map((item, i) => (
               <li key={i}>
                 <a
                   href={`#${item.toLowerCase()}`}
-                  className="text-gray-400 hover:text-primary transition"
+                  className="text-gray-400 hover:text-primary focus:text-primary transition focus:outline-none focus:ring-1 focus:ring-primary rounded"
                 >
                   {item}
                 </a>
@@ -50,8 +59,24 @@ export default function Footer() {
         {/* Contact Section */}
         <div>
           <h3 className="text-lg font-semibold text-white mb-4">Contact Us</h3>
-          <p className="text-gray-400 mb-2">Email: support@novaarcade.com</p>
-          <p className="text-gray-400 mb-2">Phone: +254 712 345 678</p>
+          <p className="text-gray-400 mb-2">
+            Email:{" "}
+            <a
+              href="mailto:support@novaarcade.com"
+              className="hover:text-primary focus:text-primary transition"
+            >
+              support@novaarcade.com
+            </a>
+          </p>
+          <p className="text-gray-400 mb-2">
+            Phone:{" "}
+            <a
+              href="tel:+254712345678"
+              className="hover:text-primary focus:text-primary transition"
+            >
+              +254 712 345 678
+            </a>
+          </p>
           <p className="text-gray-400">Nairobi, Kenya</p>
         </div>
       </div>
@@ -62,7 +87,7 @@ export default function Footer() {
       </div>
 
       {/* Subtle Gradient Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent blur-sm"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent blur-sm pointer-events-none" />
     </footer>
   );
 }
