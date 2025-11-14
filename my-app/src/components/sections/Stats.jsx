@@ -1,111 +1,137 @@
 // src/components/Stats.jsx
-import { motion, useInView } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState, memo, useMemo } from "react";
 
-function useCountUp(target, start = false, duration = 2000) {
+// Count-up animation
+function useCountUp(target, start = false, duration = 1800) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (!start) return;
+
     let startTime;
-    const step = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const progress = Math.min((timestamp - startTime) / duration, 1);
+    const step = (ts) => {
+      if (!startTime) startTime = ts;
+      const progress = Math.min((ts - startTime) / duration, 1);
+
       setCount(Math.floor(progress * target));
+
       if (progress < 1) requestAnimationFrame(step);
     };
+
     requestAnimationFrame(step);
   }, [target, start, duration]);
 
   return count;
 }
 
+function StatCard({ item, index }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const prefersReducedMotion = useReducedMotion();
+  const count = useCountUp(item.value, isInView);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.55, delay: index * 0.1 }}
+      viewport={{ once: true }}
+      className="relative p-6 sm:p-8 rounded-2xl 
+                 bg-white/40 dark:bg-gray-800/40 
+                 border border-gray-200/40 dark:border-gray-700/40 
+                 shadow-md overflow-hidden"
+    >
+      {/* Subtle glow – disabled on mobile + reduced-motion */}
+      {!prefersReducedMotion && (
+        <motion.div
+          animate={{
+            opacity: [0.2, 0.35, 0.2],
+            scale: [1, 1.04, 1],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 3 + index * 0.3,
+            ease: "easeInOut",
+          }}
+          className="absolute inset-0 rounded-2xl blur-xl 
+                     bg-gradient-to-r from-primary to-accent opacity-20"
+          aria-hidden="true"
+        />
+      )}
+
+      <div className="relative z-10">
+        <motion.h3
+          animate={
+            isInView && !prefersReducedMotion ? { scale: [1, 1.1, 1] } : {}
+          }
+          transition={{ duration: 0.35 }}
+          className="text-4xl md:text-5xl font-extrabold text-primary"
+        >
+          {count.toLocaleString()}
+          {item.suffix}
+        </motion.h3>
+
+        <p className="text-sm md:text-base text-gray-700 dark:text-gray-300 mt-1">
+          {item.label}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+const MemoCard = memo(StatCard);
+
 export default function Stats() {
-  const stats = [
-    { label: "Years of Experience", value: 7, suffix: "+" },
-    { label: "Products Sold", value: 10000, suffix: "+" },
-    { label: "Active Gamers", value: 2000, suffix: "+" },
-    { label: "Brands Partnered", value: 15, suffix: "+" },
-  ];
+  // Memoized array to prevent re-creation
+  const stats = useMemo(
+    () => [
+      { label: "Years of Experience", value: 7, suffix: "+" },
+      { label: "Products Sold", value: 10000, suffix: "+" },
+      { label: "Active Gamers", value: 2000, suffix: "+" },
+      { label: "Brands Partnered", value: 15, suffix: "+" },
+    ],
+    []
+  );
 
   return (
     <section
       id="stats"
-      className="relative py-16 sm:py-24 bg-gradient-to-b from-white to-gray-50 dark:from-[#0a0a0a] dark:to-[#111] overflow-hidden"
+      aria-labelledby="stats-title"
+      className="relative py-16 sm:py-24
+                 bg-gradient-to-b from-white to-gray-50
+                 dark:from-[#0a0a0a] dark:to-[#111]"
     >
-      {/* Subtle texture */}
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-mosaic.png')] opacity-10 dark:opacity-20"></div>
+      {/* Lightweight inline pattern (no blocking request) */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 opacity-[0.08] dark:opacity-[0.15]"
+        style={{
+          backgroundImage:
+            "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"40\" height=\"40\" viewBox=\"0 0 40 40\"><circle cx=\"1\" cy=\"1\" r=\"1\" fill=\"%23ccc\"/></svg>')",
+        }}
+      />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 relative z-10">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-16">
         <motion.h2
+          id="stats-title"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12"
+          className="text-3xl md:text-4xl font-bold text-center mb-12"
         >
-          <span className="bg-gradient-to-r from-primary via-accent to-purple-600 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-primary via-accent to-purple-600 
+                           bg-clip-text text-transparent">
             Our Achievements
           </span>
         </motion.h2>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8 text-center">
-          {stats.map((item, index) => {
-            const ref = useRef(null);
-            const inView = useInView(ref, { once: true, margin: "-100px" });
-            const count = useCountUp(item.value, inView);
-
-            return (
-              <motion.div
-                key={index}
-                ref={ref}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow:
-                    "0 0 25px rgba(147, 51, 234, 0.5), 0 0 50px rgba(236, 72, 153, 0.4)",
-                }}
-                className="relative p-6 sm:p-8 rounded-2xl bg-white/30 dark:bg-gray-800/30 backdrop-blur-md border border-gray-200/30 dark:border-gray-700/30 shadow-md overflow-hidden transition-transform duration-300"
-              >
-                {/* Animated Glow */}
-                <motion.div
-                  animate={{
-                    opacity: [0.3, 0.7, 0.3],
-                    scale: [1, 1.05, 1],
-                    rotate: [0, 2, -2, 0],
-                  }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 3 + index,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute inset-0 rounded-2xl blur-2xl bg-gradient-to-r from-primary via-accent to-purple-600 opacity-40"
-                />
-
-                {/* Stat Content */}
-                <div className="relative z-10">
-                  <motion.h3
-                    animate={inView ? { scale: [1, 1.1, 1] } : {}}
-                    transition={{
-                      duration: 0.3,
-                      delay: 0.5 + index * 0.2,
-                    }}
-                    className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary mb-1 sm:mb-2 drop-shadow-[0_0_10px_rgba(139,92,246,0.6)]"
-                  >
-                    {count.toLocaleString()}
-                    {item.suffix}
-                  </motion.h3>
-                  <p className="text-xs sm:text-sm md:text-base font-medium text-gray-700 dark:text-gray-300">
-                    {item.label}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          {stats.map((item, index) => (
+            <MemoCard key={index} item={item} index={index} />
+          ))}
         </div>
       </div>
     </section>
