@@ -30,17 +30,28 @@ const testimonialsData = [
   },
 ];
 
-// Memoized testimonial card
-const TestimonialCard = memo(function TestimonialCard({ testimonial, prefersReducedMotion }) {
+// Motion variants
+const variants = {
+  enter: { opacity: 0, y: 40 },
+  center: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -40 },
+};
+
+// Memoized card
+const TestimonialCard = memo(function TestimonialCard({
+  testimonial,
+  prefersReducedMotion,
+}) {
   return (
     <motion.div
-      key={testimonial.name}
-      initial={prefersReducedMotion ? false : { opacity: 0, y: 40 }}
-      animate={prefersReducedMotion ? false : { opacity: 1, y: 0 }}
-      exit={prefersReducedMotion ? false : { opacity: 0, y: -40 }}
-      transition={{ duration: 0.8 }}
+      variants={prefersReducedMotion ? {} : variants}
+      initial="enter"
+      animate="center"
+      exit="exit"
+      transition={{ duration: prefersReducedMotion ? 0 : 0.8 }}
       className="bg-white/10 dark:bg-white/5 border border-gray-200/10 
-                 backdrop-blur-lg rounded-3xl p-8 sm:p-10 shadow-xl max-w-md sm:max-w-3xl mx-auto"
+                 backdrop-blur-lg rounded-3xl p-8 sm:p-10 shadow-xl 
+                 max-w-md sm:max-w-3xl mx-auto"
     >
       <img
         src={testimonial.image}
@@ -52,8 +63,12 @@ const TestimonialCard = memo(function TestimonialCard({ testimonial, prefersRedu
       <p className="text-sm sm:text-lg text-gray-700 dark:text-gray-300 italic mb-4 sm:mb-6">
         “{testimonial.quote}”
       </p>
-      <h4 className="text-lg sm:text-xl font-bold text-primary">{testimonial.name}</h4>
-      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">{testimonial.role}</p>
+      <h4 className="text-lg sm:text-xl font-bold text-primary">
+        {testimonial.name}
+      </h4>
+      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+        {testimonial.role}
+      </p>
     </motion.div>
   );
 });
@@ -62,23 +77,24 @@ export default function Testimonials() {
   const [index, setIndex] = useState(0);
   const prefersReducedMotion = useReducedMotion();
 
-  // Auto-rotate every 5s
+  // Auto-rotate every 5 seconds
   useEffect(() => {
     if (prefersReducedMotion) return;
+
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % testimonialsData.length);
     }, 5000);
+
     return () => clearInterval(timer);
   }, [prefersReducedMotion]);
 
-  const next = useCallback(
-    () => setIndex((prev) => (prev + 1) % testimonialsData.length),
-    []
-  );
-  const prev = useCallback(
-    () => setIndex((prev) => (prev - 1 + testimonialsData.length) % testimonialsData.length),
-    []
-  );
+  const next = useCallback(() => {
+    setIndex((prev) => (prev + 1) % testimonialsData.length);
+  }, []);
+
+  const prev = useCallback(() => {
+    setIndex((prev) => (prev - 1 + testimonialsData.length) % testimonialsData.length);
+  }, []);
 
   return (
     <section
@@ -96,7 +112,7 @@ export default function Testimonials() {
           </span>
         </h2>
 
-        <div className="relative">
+        <div className="relative flex justify-center items-center">
           <AnimatePresence mode="wait">
             <TestimonialCard
               key={index}
@@ -109,16 +125,19 @@ export default function Testimonials() {
           <button
             onClick={prev}
             aria-label="Previous testimonial"
-            className="absolute left-0 top-1/2 -translate-y-1/2 p-2 rounded-full 
-                       bg-white/20 dark:bg-black/30 hover:bg-primary/40 focus:outline-none focus:ring-2 focus:ring-primary transition"
+            className="absolute left-2 sm:left-0 top-1/2 -translate-y-1/2 p-2 rounded-full 
+                       bg-white/20 dark:bg-black/30 hover:bg-primary/40 
+                       focus:outline-none focus:ring-2 focus:ring-primary transition"
           >
             <ChevronLeft className="w-5 sm:w-6 h-5 sm:h-6 text-white" />
           </button>
+
           <button
             onClick={next}
             aria-label="Next testimonial"
-            className="absolute right-0 top-1/2 -translate-y-1/2 p-2 rounded-full 
-                       bg-white/20 dark:bg-black/30 hover:bg-accent/40 focus:outline-none focus:ring-2 focus:ring-accent transition"
+            className="absolute right-2 sm:right-0 top-1/2 -translate-y-1/2 p-2 rounded-full 
+                       bg-white/20 dark:bg-black/30 hover:bg-accent/40 
+                       focus:outline-none focus:ring-2 focus:ring-accent transition"
           >
             <ChevronRight className="w-5 sm:w-6 h-5 sm:h-6 text-white" />
           </button>

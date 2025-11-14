@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,20 +7,39 @@
     <link rel="icon" href="/vite.svg" type="image/svg+xml" />
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Orbitron:wght@700&display=swap"
+      rel="stylesheet"
+    />
 
-    <!-- Preload Key Images -->
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1651012998667-2c779fee76f8?auto=format&fit=crop&w=1000&q=80&fm=webp">
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1598550473359-433795503a0f?auto=format&fit=crop&w=1000&q=80&fm=webp">
-    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1755589614356-bf6d276f5ca5?auto=format&fit=crop&w=800&q=80&fm=webp">
+    <!-- Preload critical images -->
+    <link
+      rel="preload"
+      as="image"
+      href="https://images.unsplash.com/photo-1651012998667-2c779fee76f8?auto=format&fit=crop&w=1000&q=80&fm=webp"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="https://images.unsplash.com/photo-1598550473359-433795503a0f?auto=format&fit=crop&w=1000&q=80&fm=webp"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="https://images.unsplash.com/photo-1755589614356-bf6d276f5ca5?auto=format&fit=crop&w=800&q=80&fm=webp"
+    />
+
+    <!-- Preload JS module for faster hydration -->
+    <link rel="modulepreload" href="/src/main.jsx" />
 
     <!-- SEO -->
-    <meta name="description" content="Shop the best gaming accessories — keyboards, controllers, headsets, monitors & more. Level up your setup with NovaArcade gear built for pros.">
-    <meta name="keywords" content="gaming gear, gaming store, RGB keyboard, gaming headset, pro controller, eSports accessories, NovaArcade">
-    <meta name="author" content="NovaArcade Team">
+    <meta name="description" content="Shop the best gaming accessories — keyboards, controllers, headsets, monitors & more. Level up your setup with NovaArcade gear built for pros." />
+    <meta name="keywords" content="gaming gear, gaming store, RGB keyboard, gaming headset, pro controller, eSports accessories, NovaArcade" />
+    <meta name="author" content="NovaArcade Team" />
     <link rel="canonical" href="https://novaarcade.store/" />
+    <meta name="robots" content="index, follow" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -35,25 +54,29 @@
     <meta name="twitter:description" content="Explore high-performance gaming gear trusted by elite players worldwide." />
     <meta name="twitter:image" content="https://images.unsplash.com/photo-1747397454085-d6acb0502daf?auto=format&fit=crop&w=1200&q=80" />
 
+    <!-- Theme & PWA -->
     <meta name="theme-color" content="#b45309" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- Structured Data: Store -->
+    <!-- Structured Data -->
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Store",
-      "name": "NovaArcade",
-      "url": "https://novaarcade.store/",
-      "logo": "https://novaarcade.store/favicon.png",
-      "description": "NovaArcade is an elite gaming store offering premium accessories and hardware.",
-      "sameAs": [
-        "https://instagram.com/novaarcade",
-        "https://twitter.com/novaarcade",
-        "https://facebook.com/novaarcade"
-      ]
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "NovaArcade",
+        "url": "https://novaarcade.store/",
+        "logo": "https://novaarcade.store/favicon.png",
+        "description": "NovaArcade is an elite gaming store offering premium accessories and hardware.",
+        "sameAs": [
+          "https://instagram.com/novaarcade",
+          "https://twitter.com/novaarcade",
+          "https://facebook.com/novaarcade"
+        ]
+      }
     </script>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
