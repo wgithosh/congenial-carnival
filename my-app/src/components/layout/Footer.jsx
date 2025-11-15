@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Facebook, Instagram, Twitter, Youtube, MessageCircle } from "lucide-react";
+import { Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 import React from "react";
 
 export default function Footer() {
@@ -43,20 +43,6 @@ export default function Footer() {
               </motion.a>
             ))}
           </div>
-
-          {/* WhatsApp Button */}
-          <motion.a
-            href="https://wa.me/254707556061?text=Hi%20NovaArcade!"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileFocus={{ scale: 1.05 }}
-            className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full font-semibold shadow-lg transition"
-            aria-label="Chat on WhatsApp"
-          >
-            <MessageCircle className="w-5 h-5" />
-            Chat on WhatsApp
-          </motion.a>
         </div>
 
         {/* Quick Links */}
