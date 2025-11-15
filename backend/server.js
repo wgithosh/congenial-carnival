@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js";
 import newsletterRoutes from "./routes/newsletterRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
-
+import cartRoutes from "./routes/cartRoutes.js";
 dotenv.config();
 
 const app = express();
@@ -35,7 +35,7 @@ mongoose
 app.use("/api/products", productRoutes);
 app.use("/api/newsletter", newsletterRoutes);
 app.use("/api/admin", adminRoutes);
-
+app.use("/api/cart", cartRoutes);
 // ✅ Root route
 app.get("/", (req, res) => {
   res.send("NovaArcade API is running...");
