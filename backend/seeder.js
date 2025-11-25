@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Product from "./models/Product.js";
-import slugify from "slugify"; // npm i slugify
+import slugify from "slugify";  
 
 dotenv.config();
 
 if (!process.env.MONGO_URI) {
-  console.error("❌ MONGO_URI not set in .env");
+  console.error(" MONGO_URI not set in .env");
   process.exit(1);
 }
 
@@ -73,19 +73,19 @@ products.forEach((p) => (p.slug = slugify(p.title, { lower: true })));
 const seedProducts = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("Connected to MongoDB ✅");
+    console.log("Connected to MongoDB ");
 
     await Product.deleteMany();
-    console.log("Existing products cleared ❌");
+    console.log("Existing products cleared ");
 
     await Product.insertMany(products);
     products.forEach((p) =>
       console.log(`Inserted: ${p.title} (Category: ${p.category}, Stock: ${p.stock})`)
     );
 
-    console.log("All products seeded successfully ✅");
+    console.log("All products seeded successfully ");
   } catch (err) {
-    console.error("Seeding failed ❌", err);
+    console.error("Seeding failed ", err);
   } finally {
     mongoose.connection.close();
   }

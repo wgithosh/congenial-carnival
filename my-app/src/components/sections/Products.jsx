@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import toast, { Toaster } from "react-hot-toast";
 
 // ---------------------------------------------------
-// Motion variants (reduced weight = faster)
+// Motion variants
 const cardVariants = {
   hidden: { opacity: 0, y: 40 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
@@ -15,7 +15,7 @@ const hoverVariants = {
 };
 
 // -------------------------------------------------------
-// CARD COMPONENT (optimized)
+// CARD COMPONENT
 // -------------------------------------------------------
 const Card = React.memo(function Card({ title, description, price, image, stock, onAddToCart }) {
   return (
@@ -30,7 +30,7 @@ const Card = React.memo(function Card({ title, description, price, image, stock,
       <motion.div variants={hoverVariants}>
         <figure>
           <img
-            src={image} // already optimized in backend/seed
+            src={image}
             alt={title}
             loading="lazy"
             decoding="async"
@@ -62,7 +62,7 @@ const Card = React.memo(function Card({ title, description, price, image, stock,
 });
 
 // -------------------------------------------------------
-// MAIN PRODUCTS COMPONENT (optimized)
+// MAIN PRODUCTS COMPONENT
 // -------------------------------------------------------
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -71,7 +71,7 @@ export default function Products() {
 
   const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-  // Optimized fetch + caching
+  // Fetch + cache
   useEffect(() => {
     const cached = localStorage.getItem("products");
 
@@ -88,13 +88,12 @@ export default function Products() {
       })
       .then(data => {
         setProducts(data);
-        localStorage.setItem("products", JSON.stringify(data)); // cache
+        localStorage.setItem("products", JSON.stringify(data));
       })
       .catch(err => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
 
-  // optimize cart handler
   const handleAddToCart = useCallback(async (product) => {
     try {
       const res = await fetch(`${API_BASE}/api/cart`, {
@@ -122,7 +121,10 @@ export default function Products() {
 
   if (loading) {
     return (
-      <section className="py-16 max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section
+        id="products"
+        className="py-16 scroll-mt-24 max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
         {Array.from({ length: 6 }).map((_, i) => (
           <SkeletonCard key={i} />
         ))}
@@ -134,7 +136,10 @@ export default function Products() {
     return <p className="text-center py-20 text-red-500 text-lg">{error}</p>;
 
   return (
-    <section className="py-16 bg-gradient-to-b from-white to-gray-50 dark:from-[#0a0a0a] dark:to-[#111]">
+    <section
+      id="products"
+      className="py-16 scroll-mt-24 bg-gradient-to-b from-white to-gray-50 dark:from-[#0a0a0a] dark:to-[#111]"
+    >
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-center mb-6">
           <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
