@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Product from "./models/Product.js";
-import slugify from "slugify";  
+import slugify from "slugify";    
 
 dotenv.config();
 
